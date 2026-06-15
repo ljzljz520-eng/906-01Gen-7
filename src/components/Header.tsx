@@ -94,11 +94,13 @@ export default function Header() {
               )}
             </Link>
 
-            <Link to="/publish" className="hidden md:block">
-              <button className="px-4 py-2 bg-primary-500 text-white rounded-full text-sm font-medium hover:bg-primary-600 transition-colors shadow-md hover:shadow-lg">
-                发布教程
-              </button>
-            </Link>
+            {currentUser && currentUser.role !== 'learner' && (
+              <Link to="/publish" className="hidden md:block">
+                <button className="px-4 py-2 bg-primary-500 text-white rounded-full text-sm font-medium hover:bg-primary-600 transition-colors shadow-md hover:shadow-lg">
+                  发布教程
+                </button>
+              </Link>
+            )}
 
             <button
               className="md:hidden p-2 text-lacquer-600"
@@ -167,11 +169,13 @@ export default function Header() {
               </Link>
             </nav>
 
-            <Link to="/publish" onClick={() => setMobileMenuOpen(false)}>
-              <button className="w-full py-3 bg-primary-500 text-white rounded-lg font-medium">
-                发布教程
-              </button>
-            </Link>
+            {currentUser && currentUser.role !== 'learner' && (
+              <Link to="/publish" onClick={() => setMobileMenuOpen(false)}>
+                <button className="w-full py-3 bg-primary-500 text-white rounded-lg font-medium">
+                  发布教程
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       )}

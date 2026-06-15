@@ -11,6 +11,7 @@ import {
   Image as ImageIcon,
   ArrowLeft,
   Check,
+  Lock,
 } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { Category, Difficulty, categoryLabels, difficultyLabels } from '@/types';
@@ -26,6 +27,32 @@ const steps = [
 export default function Publish() {
   const navigate = useNavigate();
   const { addTutorial, currentUser } = useAppStore();
+
+  if (!currentUser || currentUser.role === 'learner') {
+    return (
+      <div className="min-h-screen py-8">
+        <div className="container max-w-md text-center">
+          <div className="bg-white rounded-2xl shadow-card p-12">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-rice-100 flex items-center justify-center">
+              <Lock className="w-8 h-8 text-lacquer-300" />
+            </div>
+            <h2 className="font-song text-2xl font-bold text-lacquer-700 mb-3">
+              仅匠人可发布教程
+            </h2>
+            <p className="text-lacquer-400 mb-6">
+              发布教程是匠人和非遗机构的专属功能，学习者可以收藏教程、上传练习作品。
+            </p>
+            <button
+              onClick={() => navigate('/tutorials')}
+              className="px-6 py-3 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors"
+            >
+              浏览教程
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const [currentStep, setCurrentStep] = useState(1);
 

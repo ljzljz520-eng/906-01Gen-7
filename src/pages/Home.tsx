@@ -8,7 +8,7 @@ import { getArtisans } from '@/data/users';
 import { Category, categoryLabels } from '@/types';
 
 export default function Home() {
-  const { tutorials, topics } = useAppStore();
+  const { tutorials, topics, currentUser } = useAppStore();
   const featuredTutorials = tutorials.slice(0, 4);
   const artisans = getArtisans();
   const featuredTopics = topics.slice(0, 3);
@@ -274,23 +274,25 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container py-16">
-        <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl p-8 md:p-12 text-center text-white">
-          <h2 className="font-song text-3xl md:text-4xl font-bold mb-4">
-            分享你的手艺
-          </h2>
-          <p className="text-primary-100 max-w-xl mx-auto mb-8">
-            如果你也是手工艺人，欢迎加入我们，分享你的技艺，让更多人感受传统工艺的魅力
-          </p>
-          <Link
-            to="/publish"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-white text-primary-600 rounded-full font-semibold hover:bg-rice-100 transition-colors shadow-lg"
-          >
-            发布教程
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      {currentUser && currentUser.role !== 'learner' && (
+        <section className="container py-16">
+          <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl p-8 md:p-12 text-center text-white">
+            <h2 className="font-song text-3xl md:text-4xl font-bold mb-4">
+              分享你的手艺
+            </h2>
+            <p className="text-primary-100 max-w-xl mx-auto mb-8">
+              如果你也是手工艺人，欢迎加入我们，分享你的技艺，让更多人感受传统工艺的魅力
+            </p>
+            <Link
+              to="/publish"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-primary-600 rounded-full font-semibold hover:bg-rice-100 transition-colors shadow-lg"
+            >
+              发布教程
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

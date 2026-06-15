@@ -6,7 +6,7 @@ import { Category, Difficulty, categoryLabels, difficultyLabels } from '@/types'
 
 export default function TutorialList() {
   const {
-    getFilteredTutorials,
+    tutorials,
     searchKeyword,
     selectedCategory,
     selectedDifficulty,
@@ -15,7 +15,22 @@ export default function TutorialList() {
     setSelectedDifficulty,
   } = useAppStore();
 
-  const filteredTutorials = useMemo(() => getFilteredTutorials(), [getFilteredTutorials]);
+  const filteredTutorials = useMemo(() => {
+    return tutorials.filter((t) => {
+      if (selectedCategory !== 'all' && t.category !== selectedCategory) return false;
+      if (selectedDifficulty !== 'all' && t.difficulty !== selectedDifficulty) return false;
+      if (searchKeyword) {
+        const keyword = searchKeyword.toLowerCase();
+        if (
+          !t.title.toLowerCase().includes(keyword) &&
+          !t.description.toLowerCase().includes(keyword)
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [tutorials, searchKeyword, selectedCategory, selectedDifficulty]);
 
   const categories: (Category | 'all')[] = ['all', 'bamboo', 'lacquer', 'papercut', 'tieDye'];
   const difficulties: (Difficulty | 'all')[] = ['all', 'beginner', 'intermediate', 'advanced'];
